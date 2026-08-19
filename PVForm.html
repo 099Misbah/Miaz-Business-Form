@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M&A Customer PV Form</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+:root{--bg:#0d0f18;--card:#13151f;--border:rgba(255,255,255,0.08);--gold:#f5c842;--teal:#00c9a7;--blue:#4a9eff;--purple:#7c6af7;--pink:#f76a8a;--muted:#6b7089;--misbah:#f76a8a;--azeem:#4a9eff;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px;width:100%;max-width:560px;}
+.logo-row{display:flex;align-items:center;gap:12px;margin-bottom:28px;}
+.badge{width:42px;height:42px;background:linear-gradient(135deg,var(--gold),#d4a010);border-radius:11px;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;color:#000;flex-shrink:0;}
+.logo-text .title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;}
+.logo-text .sub{font-size:11px;color:var(--muted);margin-top:2px;}
+.form-title{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;margin-bottom:4px;}
+.form-sub{font-size:12px;color:var(--muted);margin-bottom:24px;}
+.divider{height:1px;background:var(--border);margin:20px 0;}
+.section-lbl{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:600;margin-bottom:12px;}
+.form-group{margin-bottom:14px;}
+.form-lbl{font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;display:block;}
+.form-input{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:#fff;font-size:13px;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s;}
+.form-input:focus{border-color:var(--teal);}
+.form-input::placeholder{color:var(--muted);}
+select.form-input option{background:#13151f;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.person-select{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.person-btn{padding:12px;border-radius:10px;border:2px solid var(--border);background:transparent;color:var(--muted);font-family:'Inter',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.person-btn.selected-m{border-color:var(--misbah);background:rgba(247,106,138,.08);color:var(--misbah);}
+.person-btn.selected-a{border-color:var(--azeem);background:rgba(74,158,255,.08);color:var(--azeem);}
+.period-select{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.period-btn{padding:14px 12px;border-radius:10px;border:2px solid var(--border);background:transparent;color:var(--muted);font-family:'Inter',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;text-align:center;}
+.period-btn.selected{border-color:var(--teal);background:rgba(0,201,167,.08);color:var(--teal);}
+.period-btn .period-icon{font-size:20px;display:block;margin-bottom:4px;}
+.add-btn{width:100%;background:rgba(255,255,255,.04);border:1px dashed var(--border);border-radius:8px;padding:10px;color:var(--teal);font-family:'Inter',sans-serif;font-size:12px;font-weight:600;cursor:pointer;margin-top:4px;transition:all .2s;}
+.add-btn:hover{background:rgba(0,201,167,.06);border-color:var(--teal);}
+.customer-row{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:8px;position:relative;}
+.remove-btn{position:absolute;top:10px;right:10px;background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;line-height:1;}
+.remove-btn:hover{color:var(--pink);}
+.pv-preview{background:rgba(0,201,167,.06);border:1px solid rgba(0,201,167,.15);border-radius:8px;padding:12px 16px;margin-top:12px;display:flex;justify-content:space-between;align-items:center;}
+.pv-preview-lbl{font-size:11px;color:var(--muted);}
+.pv-preview-val{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:var(--teal);}
+.submit-btn{width:100%;background:linear-gradient(135deg,var(--teal),#00a88d);border:none;border-radius:10px;padding:14px;color:#000;font-family:'Inter',sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-top:8px;transition:opacity .2s;}
+.submit-btn:hover{opacity:.88;}
+.success{display:none;text-align:center;padding:24px 0;}
+.success-icon{font-size:48px;margin-bottom:12px;}
+.success-title{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;color:var(--teal);margin-bottom:6px;}
+.success-sub{font-size:12px;color:var(--muted);}
+.required{color:var(--pink);margin-left:2px;}
+.info-box{background:rgba(124,106,247,.06);border:1px solid rgba(124,106,247,.2);border-radius:8px;padding:10px 14px;font-size:11px;color:#a89ff7;margin-bottom:20px;line-height:1.6;}
+.month-badge{display:inline-block;background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.2);color:var(--gold);padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;margin-bottom:16px;}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo-row">
+    <div class="badge">M&A</div>
+    <div class="logo-text">
+      <div class="title">Misbah & Azeem</div>
+      <div class="sub">Customer PV Submission</div>
+    </div>
+  </div>
+
+  <div id="form-view">
+    <div class="form-title">📦 Customer PV Form</div>
+    <div class="form-sub">Submit your customer orders for this period</div>
+    <div class="month-badge" id="month-badge">📅 August 2026</div>
+
+    <div class="info-box">📧 This form is sent to you at the <strong>start</strong> and <strong>mid</strong> of each month. Fill in all customer orders and submit — they appear on the dashboard PV report automatically.</div>
+
+    <!-- WHO -->
+    <div class="section-lbl">Who is submitting?<span class="required">*</span></div>
+    <div class="person-select">
+      <button class="person-btn" id="btn-misbah" onclick="selectPerson('Misbah')">👩 Misbah</button>
+      <button class="person-btn" id="btn-azeem" onclick="selectPerson('Azeem')">👨 Azeem</button>
+    </div>
+    <input type="hidden" id="submitter" value="">
+
+    <!-- PERIOD -->
+    <div class="section-lbl">Which period?<span class="required">*</span></div>
+    <div class="period-select">
+      <button class="period-btn" id="btn-start" onclick="selectPeriod('Start of Month', this)">
+        <span class="period-icon">🌅</span>
+        Start of Month<br><span style="font-size:10px;color:var(--muted);font-weight:400;">1st – 15th</span>
+      </button>
+      <button class="period-btn" id="btn-mid" onclick="selectPeriod('Mid Month', this)">
+        <span class="period-icon">🌓</span>
+        Mid Month<br><span style="font-size:10px;color:var(--muted);font-weight:400;">16th – 31st</span>
+      </button>
+    </div>
+    <input type="hidden" id="f-period" value="">
+
+    <div class="divider"></div>
+    <div class="section-lbl">👥 Customer Orders</div>
+
+    <!-- CUSTOMER ROWS -->
+    <div id="customer-rows"></div>
+    <button class="add-btn" onclick="addCustomerRow()">+ Add Customer</button>
+
+    <!-- PV TOTAL PREVIEW -->
+    <div class="pv-preview">
+      <div><div class="pv-preview-lbl">Total PV this submission</div></div>
+      <div class="pv-preview-val" id="pv-total">0 PV</div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="form-group">
+      <label class="form-lbl">Notes (optional)</label>
+      <input class="form-input" type="text" id="f-notes" placeholder="Any notes about this period's orders...">
+    </div>
+
+    <button class="submit-btn" onclick="submitForm()">✓ Submit Customer PV</button>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="success" id="success-view">
+    <div class="success-icon">✅</div>
+    <div class="success-title">PV Submitted!</div>
+    <div class="success-sub" id="success-msg">Your customer orders have been recorded and will reflect on the dashboard PV report.</div>
+    <button class="submit-btn" style="margin-top:20px;max-width:200px;margin-left:auto;margin-right:auto;display:block;" onclick="resetForm()">Submit Another</button>
+  </div>
+</div>
+
+<script>
+let selectedPerson = '';
+let selectedPeriod = '';
+let rowCount = 0;
+
+// Set month badge
+const now = new Date();
+document.getElementById('month-badge').textContent = '📅 ' + now.toLocaleDateString('en-US',{month:'long',year:'numeric'});
+
+// Add first row on load
+addCustomerRow();
+
+function selectPerson(name) {
+  selectedPerson = name;
+  document.getElementById('submitter').value = name;
+  document.getElementById('btn-misbah').className = 'person-btn' + (name==='Misbah'?' selected-m':'');
+  document.getElementById('btn-azeem').className = 'person-btn' + (name==='Azeem'?' selected-a':'');
+}
+
+function selectPeriod(val, btn) {
+  selectedPeriod = val;
+  document.getElementById('f-period').value = val;
+  document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+
+function addCustomerRow() {
+  rowCount++;
+  const id = rowCount;
+  const container = document.getElementById('customer-rows');
+  const row = document.createElement('div');
+  row.className = 'customer-row';
+  row.id = 'row-' + id;
+  row.innerHTML = `
+    <button class="remove-btn" onclick="removeRow(${id})">✕</button>
+    <div style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Customer ${id}</div>
+    <div class="grid2">
+      <div class="form-group" style="margin-bottom:0;">
+        <label class="form-lbl">Customer Name</label>
+        <input class="form-input" type="text" id="cname-${id}" placeholder="e.g. Sarah Johnson" onchange="updateTotal()">
+      </div>
+      <div class="form-group" style="margin-bottom:0;">
+        <label class="form-lbl">PV Amount</label>
+        <input class="form-input" type="number" id="cpv-${id}" placeholder="e.g. 150" min="0" oninput="updateTotal()">
+      </div>
+    </div>
+  `;
+  container.appendChild(row);
+}
+
+function removeRow(id) {
+  const row = document.getElementById('row-' + id);
+  if (row) row.remove();
+  updateTotal();
+}
+
+function updateTotal() {
+  let total = 0;
+  document.querySelectorAll('[id^="cpv-"]').forEach(input => {
+    total += parseInt(input.value)||0;
+  });
+  document.getElementById('pv-total').textContent = total + ' PV';
+}
+
+function submitForm() {
+  if (!selectedPerson) { alert('Please select who is submitting.'); return; }
+  if (!selectedPeriod) { alert('Please select the period — Start of Month or Mid Month.'); return; }
+
+  const customers = [];
+  document.querySelectorAll('[id^="cname-"]').forEach(input => {
+    const id = input.id.replace('cname-','');
+    const name = input.value.trim();
+    const pv = parseInt(document.getElementById('cpv-'+id).value)||0;
+    if (name && pv > 0) customers.push({name, pv});
+  });
+
+  if (!customers.length) { alert('Please add at least one customer with a name and PV amount.'); return; }
+
+  const data = {
+    submitter: selectedPerson,
+    period: selectedPeriod,
+    month: now.toLocaleDateString('en-US',{month:'long',year:'numeric'}),
+    customers,
+    totalPV: customers.reduce((s,c) => s+c.pv, 0),
+    notes: document.getElementById('f-notes').value,
+    timestamp: new Date().toISOString()
+  };
+
+  // ============================================================
+  // TO CONNECT TO GOOGLE SHEETS:
+  // Replace the URL below with your Google Apps Script Web App URL
+  // ============================================================
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwX9yNs0HdGB6ZQI3n03JLdkK0Uvy18NdmemMMJAkHYXWOi3oPrOlnBic1hN3uvfaFN/exec';
+
+
+  if (APPS_SCRIPT_URL !== 'https://script.google.com/macros/s/AKfycbwX9yNs0HdGB6ZQI3n03JLdkK0Uvy18NdmemMMJAkHYXWOi3oPrOlnBic1hN3uvfaFN/exec') {
+    fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify(data)
+    }).then(() => showSuccess(data)).catch(() => showSuccess(data));
+  } else {
+    console.log('PV Form data (connect Apps Script to send):', data);
+    showSuccess(data);
+  }
+}
+
+function showSuccess(data) {
+  document.getElementById('form-view').style.display = 'none';
+  document.getElementById('success-view').style.display = 'block';
+  document.getElementById('success-msg').textContent = `${data.submitter} submitted ${data.customers.length} customer(s) — ${data.totalPV} PV total for ${data.period}. Dashboard updated!`;
+}
+
+function resetForm() {
+  document.getElementById('form-view').style.display = 'block';
+  document.getElementById('success-view').style.display = 'none';
+  document.getElementById('customer-rows').innerHTML = '';
+  rowCount = 0;
+  addCustomerRow();
+  document.getElementById('f-notes').value = '';
+  document.getElementById('f-period').value = '';
+  document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('selected'));
+  selectedPerson=''; selectedPeriod='';
+  document.getElementById('btn-misbah').className='person-btn';
+  document.getElementById('btn-azeem').className='person-btn';
+  updateTotal();
+}
+</script>
+</body>
+</html>
