@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M&A Daily Stats Form</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+:root{--bg:#0d0f18;--card:#13151f;--border:rgba(255,255,255,0.08);--gold:#f5c842;--teal:#00c9a7;--blue:#4a9eff;--purple:#7c6af7;--pink:#f76a8a;--muted:#6b7089;--misbah:#f76a8a;--azeem:#4a9eff;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px;width:100%;max-width:560px;}
+.logo-row{display:flex;align-items:center;gap:12px;margin-bottom:28px;}
+.badge{width:42px;height:42px;background:linear-gradient(135deg,var(--gold),#d4a010);border-radius:11px;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;color:#000;flex-shrink:0;}
+.logo-text .title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;}
+.logo-text .sub{font-size:11px;color:var(--muted);margin-top:2px;}
+.form-title{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;margin-bottom:4px;}
+.form-sub{font-size:12px;color:var(--muted);margin-bottom:24px;}
+.divider{height:1px;background:var(--border);margin:20px 0;}
+.section-lbl{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:600;margin-bottom:12px;}
+.form-group{margin-bottom:14px;}
+.form-lbl{font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;display:block;}
+.form-input{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:#fff;font-size:13px;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s;}
+.form-input:focus{border-color:var(--teal);}
+.form-input::placeholder{color:var(--muted);}
+select.form-input option{background:#13151f;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+.grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;}
+.person-select{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.person-btn{padding:12px;border-radius:10px;border:2px solid var(--border);background:transparent;color:var(--muted);font-family:'Inter',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.person-btn.selected-m{border-color:var(--misbah);background:rgba(247,106,138,.08);color:var(--misbah);}
+.person-btn.selected-a{border-color:var(--azeem);background:rgba(74,158,255,.08);color:var(--azeem);}
+.submit-btn{width:100%;background:linear-gradient(135deg,var(--teal),#00a88d);border:none;border-radius:10px;padding:14px;color:#000;font-family:'Inter',sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-top:8px;transition:opacity .2s;}
+.submit-btn:hover{opacity:.88;}
+.success{display:none;text-align:center;padding:24px 0;}
+.success-icon{font-size:48px;margin-bottom:12px;}
+.success-title{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;color:var(--teal);margin-bottom:6px;}
+.success-sub{font-size:12px;color:var(--muted);}
+.required{color:var(--pink);margin-left:2px;}
+.info-box{background:rgba(74,158,255,.06);border:1px solid rgba(74,158,255,.15);border-radius:8px;padding:10px 14px;font-size:11px;color:#8bb8f7;margin-bottom:20px;line-height:1.5;}
+.energy-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px;}
+.energy-btn{padding:8px 12px;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'Inter',sans-serif;font-size:11px;cursor:pointer;transition:all .2s;text-align:left;}
+.energy-btn:hover{border-color:var(--gold);color:var(--gold);}
+.energy-btn.selected{border-color:var(--gold);background:rgba(245,200,66,.08);color:var(--gold);}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo-row">
+    <div class="badge">M&A</div>
+    <div class="logo-text">
+      <div class="title">Misbah & Azeem</div>
+      <div class="sub">Daily Business Stats</div>
+    </div>
+  </div>
+
+  <div id="form-view">
+    <div class="form-title">📋 Daily Activity Form</div>
+    <div class="form-sub" id="form-date-sub">Loading date...</div>
+
+    <div class="info-box">📧 This form is sent to you daily. Fill in your numbers and submit — data reflects on the dashboard automatically.</div>
+
+    <!-- WHO IS SUBMITTING -->
+    <div class="section-lbl">Who is submitting?<span class="required">*</span></div>
+    <div class="person-select">
+      <button class="person-btn" id="btn-misbah" onclick="selectPerson('Misbah')">👩 Misbah</button>
+      <button class="person-btn" id="btn-azeem" onclick="selectPerson('Azeem')">👨 Azeem</button>
+    </div>
+    <input type="hidden" id="submitter" value="">
+
+    <div class="form-group">
+      <label class="form-lbl">Date<span class="required">*</span></label>
+      <input class="form-input" type="date" id="f-date">
+    </div>
+
+    <div class="divider"></div>
+    <div class="section-lbl">🔗 Networking Numbers</div>
+
+    <div class="grid3">
+      <div class="form-group">
+        <label class="form-lbl">Requests Sent</label>
+        <input class="form-input" type="number" id="f-req" placeholder="0" min="0">
+      </div>
+      <div class="form-group">
+        <label class="form-lbl">Initiations</label>
+        <input class="form-input" type="number" id="f-init" placeholder="0" min="0">
+      </div>
+      <div class="form-group">
+        <label class="form-lbl">2nd Message Sent</label>
+        <input class="form-input" type="number" id="f-2nd" placeholder="0" min="0">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-lbl">MG1 Booked</label>
+      <input class="form-input" type="number" id="f-mg1b" placeholder="0" min="0">
+    </div>
+
+    <div class="divider"></div>
+    <div class="section-lbl">📅 Meetings Completed Today</div>
+
+    <div class="grid4">
+      <div class="form-group">
+        <label class="form-lbl">MG1 Done</label>
+        <input class="form-input" type="number" id="f-mg1d" placeholder="0" min="0">
+      </div>
+      <div class="form-group">
+        <label class="form-lbl">MG2 Done</label>
+        <input class="form-input" type="number" id="f-mg2d" placeholder="0" min="0">
+      </div>
+      <div class="form-group">
+        <label class="form-lbl">MG3 Done</label>
+        <input class="form-input" type="number" id="f-mg3d" placeholder="0" min="0">
+      </div>
+      <div class="form-group">
+        <label class="form-lbl">Launches</label>
+        <input class="form-input" type="number" id="f-launch" placeholder="0" min="0">
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="section-lbl">Market & Location</div>
+    <div class="grid2">
+      <div class="form-group">
+        <label class="form-lbl">Market / Platform</label>
+        <select class="form-input" id="f-market">
+          <option value="">Select...</option>
+          <option>LinkedIn</option>
+          <option>In Person</option>
+          <option>Referral</option>
+          <option>Instagram</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-lbl">City</label>
+        <input class="form-input" type="text" id="f-city" placeholder="e.g. Dallas, TX" value="Dallas, TX">
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="section-lbl">⚡ Energy & Notes</div>
+
+    <div class="form-group">
+      <label class="form-lbl">Energy Level Today</label>
+      <div class="energy-grid">
+        <button class="energy-btn" onclick="selectEnergy(this,'🔥 High — Crushing it')">🔥 High — Crushing it</button>
+        <button class="energy-btn" onclick="selectEnergy(this,'✅ Good — Steady')">✅ Good — Steady</button>
+        <button class="energy-btn" onclick="selectEnergy(this,'😐 Medium — Getting through')">😐 Medium — Getting through</button>
+        <button class="energy-btn" onclick="selectEnergy(this,'😴 Low — Tough day')">😴 Low — Tough day</button>
+      </div>
+      <input type="hidden" id="f-energy" value="">
+    </div>
+
+    <div class="form-group">
+      <label class="form-lbl">Notes / Highlights</label>
+      <input class="form-input" type="text" id="f-notes" placeholder="Any key wins or observations today...">
+    </div>
+
+    <button class="submit-btn" onclick="submitForm()">✓ Submit Daily Stats</button>
+  </div>
+
+  <!-- SUCCESS STATE -->
+  <div class="success" id="success-view">
+    <div class="success-icon">✅</div>
+    <div class="success-title">Stats Submitted!</div>
+    <div class="success-sub" id="success-msg">Your numbers have been recorded and will reflect on the dashboard.</div>
+    <button class="submit-btn" style="margin-top:20px;max-width:200px;margin-left:auto;margin-right:auto;display:block;" onclick="resetForm()">Submit Another</button>
+  </div>
+</div>
+
+<script>
+let selectedPerson = '';
+let selectedEnergy = '';
+
+// Set today's date
+const today = new Date();
+document.getElementById('f-date').value = today.toISOString().split('T')[0];
+document.getElementById('form-date-sub').textContent = today.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+
+function selectPerson(name) {
+  selectedPerson = name;
+  document.getElementById('submitter').value = name;
+  document.getElementById('btn-misbah').className = 'person-btn' + (name==='Misbah'?' selected-m':'');
+  document.getElementById('btn-azeem').className = 'person-btn' + (name==='Azeem'?' selected-a':'');
+}
+
+function selectEnergy(btn, val) {
+  document.querySelectorAll('.energy-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  selectedEnergy = val;
+  document.getElementById('f-energy').value = val;
+}
+
+function submitForm() {
+  if (!selectedPerson) { alert('Please select who is submitting (Misbah or Azeem).'); return; }
+  const date = document.getElementById('f-date').value;
+  if (!date) { alert('Please select a date.'); return; }
+
+  const data = {
+    submitter: selectedPerson,
+    date,
+    req: parseInt(document.getElementById('f-req').value)||0,
+    init: parseInt(document.getElementById('f-init').value)||0,
+    s2nd: parseInt(document.getElementById('f-2nd').value)||0,
+    mg1b: parseInt(document.getElementById('f-mg1b').value)||0,
+    mg1d: parseInt(document.getElementById('f-mg1d').value)||0,
+    mg2d: parseInt(document.getElementById('f-mg2d').value)||0,
+    mg3d: parseInt(document.getElementById('f-mg3d').value)||0,
+    launch: parseInt(document.getElementById('f-launch').value)||0,
+    market: document.getElementById('f-market').value,
+    city: document.getElementById('f-city').value,
+    energy: selectedEnergy,
+    notes: document.getElementById('f-notes').value,
+    timestamp: new Date().toISOString()
+  };
+
+  // ============================================================
+  // TO CONNECT TO GOOGLE SHEETS:
+  // Replace the URL below with your Google Apps Script Web App URL
+  // Steps:
+  // 1. Open Google Sheets → Extensions → Apps Script
+  // 2. Paste the Apps Script code provided separately
+  // 3. Deploy as Web App → Copy the URL
+  // 4. Paste it here replacing YOUR_APPS_SCRIPT_URL
+  // ============================================================
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwX9yNs0HdGB6ZQI3n03JLdkK0Uvy18NdmemMMJAkHYXWOi3oPrOlnBic1hN3uvfaFN/exec';
+
+  if (APPS_SCRIPT_URL !== 'https://script.google.com/macros/s/AKfycbwX9yNs0HdGB6ZQI3n03JLdkK0Uvy18NdmemMMJAkHYXWOi3oPrOlnBic1hN3uvfaFN/exec') {
+    fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify(data)
+    }).then(() => showSuccess(data)).catch(() => showSuccess(data));
+  } else {
+    // Demo mode — show success without sending
+    console.log('Form data (connect Apps Script to send to Google Sheets):', data);
+    showSuccess(data);
+  }
+}
+
+function showSuccess(data) {
+  document.getElementById('form-view').style.display = 'none';
+  document.getElementById('success-view').style.display = 'block';
+  document.getElementById('success-msg').textContent = `${data.submitter}'s stats for ${data.date} have been recorded. Dashboard will update shortly.`;
+}
+
+function resetForm() {
+  document.getElementById('form-view').style.display = 'block';
+  document.getElementById('success-view').style.display = 'none';
+  ['f-req','f-init','f-2nd','f-mg1b','f-mg1d','f-mg2d','f-mg3d','f-launch','f-notes'].forEach(id => document.getElementById(id).value='');
+  document.getElementById('f-market').value='';
+  document.getElementById('f-city').value='Dallas, TX';
+  document.getElementById('f-energy').value='';
+  document.querySelectorAll('.energy-btn').forEach(b=>b.classList.remove('selected'));
+  selectedPerson=''; selectedEnergy='';
+  document.getElementById('btn-misbah').className='person-btn';
+  document.getElementById('btn-azeem').className='person-btn';
+}
+</script>
+</body>
+</html>
